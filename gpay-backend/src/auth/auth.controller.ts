@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './register.dto';
 
@@ -18,4 +18,8 @@ export class AuthController {
   verifyOtp(@Body('email') phone: string, @Body('code') code: string) {
     return this.authService.verifyOtp(phone, code);
   }
+  @Get('user-by-email')
+async getUserByEmail(@Query('email') email: string) {
+  return this.authService.getUserByEmail(email);
+}
 }

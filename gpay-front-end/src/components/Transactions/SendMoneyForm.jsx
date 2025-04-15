@@ -1,6 +1,7 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { sendMoney } from '../../services/transactions';
-
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 export default function SendMoneyForm() {
   const [formData, setFormData] = useState({
     receiverPhone: '',
@@ -11,7 +12,15 @@ export default function SendMoneyForm() {
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
   const [otp, setOtp] = useState('');
-
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state) {
+      setFormData((prev) => ({
+        ...prev,
+        ...location.state,
+      }));
+    }
+  }, [location.state]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));

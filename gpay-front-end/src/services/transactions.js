@@ -1,14 +1,22 @@
 import api from './api';
 
+// services/transactions.js
 export const generateDynamicQR = async (data) => {
+  const { receiverPhone, amount } = data;
   if (!receiverPhone || !amount) throw new Error('Missing receiverPhone or amount');
+  
   const response = await api.post('/qr/generate/dynamic', data);
   return response.data;
 };
 
+export const generateFixedQR = async () => {
+  const response = await api.get('/qr/generate/fixed');
+  return response.data;
+};
 
-export const generateFixedQR = async (amount) => {
-  const response = await api.post(`/qr/generate/fixed/${amount}`);
+export const generateFixedAmountQR = async (amount) => {
+  if (!amount) throw new Error('Amount is required');
+  const response = await api.get(`/qr/generate/fixed-amount?amount=${amount}`);
   return response.data;
 };
 

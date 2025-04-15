@@ -26,24 +26,25 @@ export const verifyOtp = async (otpData) => {
         throw error;
       }
 };
+export const fetchUserByEmail = async (email) => {
+  const response = await api.get(`/auth/user-by-email?email=${email}`);
+  return response.data;
+};
 
 export const verifyToken = async () => {
   const token = localStorage.getItem('token');
+  console.log('Token from localStorage:', token);
   if (!token) {
     throw new Error('Token is missing');
   }
 
-  // Decode token locally (optional) to check if it contains phone
-  const decoded = jwtDecode(token);
-  console.log(decoded);  // Check the decoded token
-
-  // You can also make an API request to verify the token if needed
   try {
-    const response = await axios.get('/api/verify-token', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
+    const decoded = jwtDecode(token);
+console.log('Decoded token:', decoded); // Should contain phone, email, etc.
+
+    return { user: decoded }; // Return as object with user key to match the context code
   } catch (error) {
-    throw new Error('Token verification failed');
+    console.error('Invalid token:', error);
+    throw new Error('Token is invalid');
   }
 };

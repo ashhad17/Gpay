@@ -7,12 +7,12 @@ import { QrService } from './qr.service';
 export class QrController {
   constructor(private readonly qrService: QrService) {}
 
-  @Get('generate/fixed')
-  async generateFixedQr(@Request() req) {
-    const userId = req.user.userId;
-    const qrCode = await this.qrService.generateFixedQr(userId);
-    return { qrType: 'FIXED', image: qrCode };
-  }
+  // @Get('generate/fixed')
+  // async generateFixedQr(@Request() req) {
+  //   const userId = req.user.userId;
+  //   const qrCode = await this.qrService.generateFixedQr(userId);
+  //   return { qrType: 'FIXED', image: qrCode };
+  // }
 
   @Get('generate/fixed-amount')
   async generateFixedAmountQr(@Query('amount') amount: number) {

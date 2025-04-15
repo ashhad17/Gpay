@@ -9,6 +9,7 @@ import WalletPage from './pages/WalletPage';
 import SendMoneyPage from './pages/Transactions/SendMoneyPage';
 import QRPage from './pages/Transactions/QRPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import QRCodeScanner from './pages/QRCodeScanner';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/" element={<ProtectedRoute>
       <Dashboard />
     </ProtectedRoute>} />
+    <Route path="/scan-qr" element={<ProtectedRoute><QRCodeScanner/></ProtectedRoute>} />
             </Routes>
           </main>
           <Footer />

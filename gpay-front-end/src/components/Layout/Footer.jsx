@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-bold">Payment App</h3>
+              <h3 className="text-xl font-bold">GPay App</h3>
               <p className="text-gray-400">Secure and fast transactions</p>
             </div>
             <div className="flex space-x-4">
@@ -15,7 +15,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="mt-4 text-center text-gray-400 text-sm">
-            © {new Date().getFullYear()} Payment App. All rights reserved.
+            © {new Date().getFullYear()} GPay App. All rights reserved.
           </div>
         </div>
       </footer>

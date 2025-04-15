@@ -23,16 +23,24 @@ export class QrService {
   }
   
   // Generates fixed QR for the user
-  async generateFixedQr(userId: number): Promise<string> {
-    const user = await this.userRepo.findOne({ where: { id: userId } });
-    if (!user) throw new Error('User not found');
-
-    const qrData = `user_id:${user.id},receiverPhone:${user.phone}`;
-    const qrCode = await QRCode.toDataURL(qrData);
-
-    return qrCode; // returns base64 QR image
+  async generateFixedQr(senderId: number, receiverPhone: string, amount: number) {
+    // Generate QR Code containing both receiver's phone and amount
+    const payload = {
+      senderId,
+      receiverPhone,
+    };
+  
+    const qr = await QRCode.toDataURL(JSON.stringify(payload));
+    return qr.replace(/^data:image\/png;base64,/, '');
+    
   }
 
+  // Generate QR Code Helper
+  private async generateQRCode(data: string) {
+    // Use a package like `qrcode` or `qr-image` to generate the QR image
+    const qrCode = await QRCode.toDataURL(data);
+    return qrCode;
+  }
   // Generates fixed amount QR for transactions
   async generateFixedAmountQr(amount: number): Promise<string> {
     const qrData = `amount:${amount}`;

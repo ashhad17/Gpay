@@ -14,6 +14,7 @@ import { IsPhoneNumber } from 'class-validator';
 
 @Injectable()
 export class AuthService {
+  
   constructor(
     @InjectRepository(Otp) private otpRepo: Repository<Otp>,
     @InjectRepository(User) private userRepo: Repository<User>,
@@ -109,6 +110,13 @@ if (!walletExists) {
     const token = this.jwtService.sign(payload);
 
     return { token };
+  }
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userRepo.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   private generateOtp(): string {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { generateDynamicQR } from '../../services/transactions';
+import { generateDynamicQR, generateFixedQR } from '../../services/transactions';
 
 export default function QRGenerator() {
   const [formData, setFormData] = useState({
@@ -15,14 +15,14 @@ export default function QRGenerator() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Generate Fixed QR (includes phone number and amount)
   const handleGenerateQR = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await generateDynamicQR(formData);
-      // const response = await generateDynamicQR(formData);
-      setQrCode(response.qrCode);
-      setMessage(response.message);
+      const response = await generateDynamicQR(formData); // Send both receiverPhone and amount
+      setQrCode(response.qrCode);  // Assuming the backend returns the qrCode in image field
+      setMessage(response.message || 'QR generation successful');
     } catch (error) {
       setMessage(error.response?.data?.message || 'QR generation failed');
     } finally {
@@ -69,14 +69,14 @@ export default function QRGenerator() {
           disabled={isLoading}
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
         >
-          {isLoading ? 'Generating...' : 'Generate QR Code'}
+          {isLoading ? 'Generating...' : 'Generate Fixed QR Code'}
         </button>
       </form>
 
       {qrCode && (
         <div className="mt-6 text-center">
-          <h3 className="text-lg font-semibold mb-2">Your QR Code</h3>
-          <img src={qrCode} alt="Payment QR Code" className="mx-auto w-48 h-48" />
+          <h3 className="text-lg font-semibold mb-2">Your Fixed QR Code</h3>
+          <img src={qrCode} alt="Fixed Payment QR Code" className="mx-auto w-48 h-48" />
           <p className="mt-2 text-sm text-gray-600">Share this QR code with the sender</p>
         </div>
       )}
