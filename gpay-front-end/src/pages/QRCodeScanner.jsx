@@ -85,7 +85,12 @@ const QRCodeScanner = () => {
       >
         Scan & Continue
       </button>
-
+      <button
+  className="bg-green-600 text-white px-4 py-2 rounded"
+  onClick={() => navigate('/camera-qr')}
+>
+  Scan QR with Camera
+</button>
       {message && <p className="mt-4 text-red-500">{message}</p>}
     </div>
   );
